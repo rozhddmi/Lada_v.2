@@ -18,13 +18,13 @@ char * buffIn = new char[msg_size_to_ard];
 char * buffOut = new char[msg_size_to_pc];
 
 // The number of the Arduino pin that is connected to the data in pin. The data in pin is pin 1 on the MAX7219.
-const uint8_t PIN_DATA = 37;
+const uint8_t PIN_DATA = 26;//37;
 
 // The number of the Arduino pin that is connected to the clock pin. The clock pin is pin 13 on the MAX7219.
-const uint8_t PIN_CLOCK = 34;
+const uint8_t PIN_CLOCK = 24;//34;
 
 // The number of the Arduino pin that is connected to the load pin. The data in pin is pin 12 on the MAX7219.
-const uint8_t PIN_LOAD = 35;
+const uint8_t PIN_LOAD = 27;//35;
 
 // The number of LED rows connected to the MAX7219.
 const uint8_t ROW_COUNT = 8;
@@ -35,8 +35,8 @@ const uint8_t ROW_COUNT = 8;
 //Initialize a variable for controlling the MAX7219.
 ICMIMax7219 max7219;
 //-------------------
-const int Rele = 50;                         // Pin to which indicator relay is connected
-const int hazard_sw = 46;                    // Pin responsible for lighting the diode in hazard switch button
+const int Rele = 18;//50;                         // Pin to which indicator relay is connected
+const int hazard_sw = 19;//46;                    // Pin responsible for lighting the diode in hazard switch button
 
 
 int maxVal = 450, minVal = 80;              // Extreme values on the output of AD converter if gas pedal is in extreme positions
