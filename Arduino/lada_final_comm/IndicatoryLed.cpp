@@ -60,29 +60,31 @@ void IndicatoryLed::setState(uint32_t coddedVal) {    // Set a state of the led
   if (stat != previosState) {
     IndicatoryLed::stateChanged = true;
     if (!stat ) {
+          bitClear(maxRowPointer[0], 5);
+          bitClear(maxRowPointer[0], 6);
+          bitClear(maxRowPointer[1], 5);
           bitClear(maxRowPointer[1], 6);
+          bitClear(maxRowPointer[2], 2);
+          bitClear(maxRowPointer[2], 5);
+          bitClear(maxRowPointer[2], 6);
+          bitClear(maxRowPointer[3], 5);
           bitClear(maxRowPointer[3], 6);
-          bitClear(maxRowPointer[6], 6);
-          bitClear(maxRowPointer[7], 6);
-          bitClear(maxRowPointer[0], 4);
-          bitClear(maxRowPointer[3], 4);
           bitClear(maxRowPointer[4], 4);
-          bitClear(maxRowPointer[7], 4);
-          bitClear(maxRowPointer[0], 3);
-          bitClear(maxRowPointer[2], 3);
-          bitClear(maxRowPointer[3], 3);
+          bitClear(maxRowPointer[4], 6);
+          bitClear(maxRowPointer[5], 5);
         } else   {
+          bitSet(maxRowPointer[0], 5);
+          bitSet(maxRowPointer[0], 6);
+          bitSet(maxRowPointer[1], 5);
           bitSet(maxRowPointer[1], 6);
+          bitSet(maxRowPointer[2], 2);
+          bitSet(maxRowPointer[2], 5);
+          bitSet(maxRowPointer[2], 6);
+          bitSet(maxRowPointer[3], 5);
           bitSet(maxRowPointer[3], 6);
-          bitSet(maxRowPointer[6], 6);
-          bitSet(maxRowPointer[7], 6);
-          bitSet(maxRowPointer[0], 4);
-          bitSet(maxRowPointer[3], 4);
           bitSet(maxRowPointer[4], 4);
-          bitSet(maxRowPointer[7], 4);
-          bitSet(maxRowPointer[0], 3);
-          bitSet(maxRowPointer[2], 3);
-          bitSet(maxRowPointer[3], 3);
+          bitSet(maxRowPointer[4], 6);
+          bitSet(maxRowPointer[5], 5);
        }
   }
 }

@@ -46,13 +46,13 @@ int acceleratorValue = 0;                   // Variable for storing current valu
 
 // Definition of the two steppers (to which pins are they connected and if the 6th parameter is 1, the motor operates in half-step mode)
 
-const int stepsPerRevolution = 280;         // number of steps between extreme positions of stepper motors (for half-step mode is twice as much)
-const int steperSpeed = 5;   
+const int stepsPerRevolution = 512;         // number of steps between extreme positions of stepper motors (for half-step mode is twice as much)
+const int steperSpeed = 20;   
 //Stepper myStepper(1020, 22, 23, 25, 24, 1);
 //Stepper myStepper2(1020, 26, 27, 29, 28, 1);
 
-Stepper myStepper(1020, 29, 31, 28, 30, 0);
-Stepper myStepper2(1020, 33, 35, 32, 34, 0);
+Stepper myStepper(stepsPerRevolution, 30,31,28,29);  
+Stepper myStepper2(stepsPerRevolution, 33,32,34,35);  
 
 
 const int max_rpm = 10000;                   // Max number of RPM that can be displayed on dash
@@ -70,29 +70,31 @@ unsigned long last_zero_calibration_speed = 0;
 unsigned long last_zero_calibration_rmp = 0;
 int callibration_periud = 2000; // 
 
-IndicatoryLed  indicatory[21] = {
-   IndicatoryLed(0,2,6), // imobilizer
-   IndicatoryLed(1,0,5), // ABS
-   IndicatoryLed(2,5,3), // check engine
-   IndicatoryLed(3,4,5), // airbag
-   IndicatoryLed(4,5,5), // OIL
-   IndicatoryLed(5,7,5), // Unknown
-   IndicatoryLed(6,5,4), // Fog light
-   IndicatoryLed(7,4,6), // Podkovacki
-   IndicatoryLed(8,6,5), // Dalkovy
-   IndicatoryLed(9,0,6), // left blnk
-   IndicatoryLed(10,1,4), // right blnk
+IndicatoryLed  indicatory[22] = {
+   IndicatoryLed(0,6,6), // imobilizer
+   IndicatoryLed(1,1,3), // ABS
+   IndicatoryLed(2,3,3), // check engine
+   IndicatoryLed(3,0,4), // airbag
+   IndicatoryLed(4,0,3), // OIL
+   IndicatoryLed(5,5,3), // batery
+   IndicatoryLed(6,6,3), // Fog light
+   IndicatoryLed(7,6,5), // Podkovacki
+   IndicatoryLed(8,7,5), // Dalkovy
+   IndicatoryLed(9,5,6), // left blnk
+   IndicatoryLed(10,7,6), // right blnk
    
-   IndicatoryLed(11,1,3), // water temp
-   IndicatoryLed(12,1,5), // tyre presure
-   IndicatoryLed(13,2,4), // doors
-   IndicatoryLed(14,2,5), // seetbelt
-   IndicatoryLed(15,3,5), // Hand brake
-   IndicatoryLed(16,5,2), // airbag
-   IndicatoryLed(17,4,3), // fog light back
-   IndicatoryLed(18,5,6), // some gear
-   IndicatoryLed(19,6,3), // steering wheel 
-   IndicatoryLed(20,6,4), // Refuel
+   IndicatoryLed(11,4,3), // water temp
+   IndicatoryLed(12,4,4), // tyre presure
+   IndicatoryLed(13,6,4), // doors
+   IndicatoryLed(14,2,4), // seetbelt
+   IndicatoryLed(15,2,3), // Hand brake
+   IndicatoryLed(17,7,3), // fog light back
+   IndicatoryLed(18,1,4), // some gear
+   IndicatoryLed(19,3,4), // steering wheel 
+   IndicatoryLed(20,5,4), // Refuel
+   IndicatoryLed(21,7,4), // attention
+   
+
    
 };
 
@@ -145,6 +147,7 @@ void setup() {
 
   max7219.enable(true);
   max7219.setIntensity(16);
+  max7219.clearDisplay();
   // resseting current input 
   data_in->indicators = 0;
   data_in->speed = 0;

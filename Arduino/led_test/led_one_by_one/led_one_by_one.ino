@@ -1,5 +1,5 @@
 #include "ICMIMax7219.h"  
-uint8_t row[9] ={0,0,0,0,0,0,0,0,0};
+uint8_t row[8] ={0,0,0,0,0,0,0,0};
 // The number of the Arduino pin that is connected to the data in pin. The data in pin is pin 1 on the MAX7219.
 const uint8_t PIN_DATA = 24;
 
@@ -18,17 +18,18 @@ void setup() {
   Serial.begin(9600);
   max7219.begin(PIN_DATA, PIN_CLOCK, PIN_LOAD, ROW_COUNT);
   max7219.enable(true);
-  max7219.setIntensity(2);
+  max7219.setIntensity(16);
   max7219.clearDisplay();
-  delay(2000);
-  updateLed(row);
+  Serial.println(" Turned on: ");
+ // delay(2000);
+  //updateLed(row);
   
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  for (int i=0;i <8;i++){
-    for (int k=0;k <8;k++){
+  for (int i=0;i <ROW_COUNT;i++){
+    for (int k=0;k <ROW_COUNT;k++){
       set_led_state(true,i, k ,row);
       Serial.print("Row: ");
       Serial.print(i);
@@ -37,12 +38,12 @@ void loop() {
        Serial.print(" State: ");
       Serial.println("ON");
       updateLed(row);
-      delay(100);
+      delay(1000);
     }  
   }
   
-    for (int i=0;i <8;i++){
-    for (int k=0;k <8;k++){
+    for (int i=0;i <ROW_COUNT;i++){
+    for (int k=0;k <ROW_COUNT;k++){
       set_led_state(false,i, k ,row);
       Serial.print("Row: ");
       Serial.print(i);
@@ -51,7 +52,7 @@ void loop() {
        Serial.print(" State: ");
       Serial.println("OFF");
       updateLed(row);
-      delay(100);
+      delay(1000);
     }  
   }
 }
