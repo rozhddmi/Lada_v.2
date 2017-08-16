@@ -20,10 +20,7 @@ Switches::Switches(int pin, bool reversed, int codded_index)
 
 }
 
-void Switches::read_current_status() {
-  if (pin_index<0) {
-      return;
-  }
+void Switches::read_current_status() {  
     int val = (reversed) ? LOW :HIGH;
     if (digitalRead(pin_index) == val) {
         bitSet(COMMON_STATE, codded_index);
@@ -40,7 +37,7 @@ bool Switches::isActivated() {
 
 void Switches::resetCommonState() {
     Switches::COMMON_STATE = 0;
-}
+}  
 
 uint32_t Switches::getCommonState() {
     return Switches::COMMON_STATE;

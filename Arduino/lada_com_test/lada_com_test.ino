@@ -35,13 +35,12 @@ const uint8_t ROW_COUNT = 8;
 //Initialize a variable for controlling the MAX7219.
 ICMIMax7219 max7219;
 //-------------------
-const int Rele = 16;                         // Pin to which indicator relay is connected
+const int Rele = 50;                         // Pin to which indicator relay is connected
 const int hazard_sw = 46;                    // Pin responsible for lighting the diode in hazard switch button
 
 
 int maxVal = 450, minVal = 80;              // Extreme values on the output of AD converter if gas pedal is in extreme positions
 int procent;                                // Variable used for recalculating of pressing the gas to percent measure
-int acceleratorPin = A11;                   // Pin to which slider of the potenciometer in gas pedal is connected
 int acceleratorValue = 0;                   // Variable for storing current value of gas pedal
 
 // Definition of the two steppers (to which pins are they connected and if the 6th parameter is 1, the motor operates in half-step mode)
@@ -55,8 +54,8 @@ Stepper myStepper2(stepsPerRevolution, 30,31,28,29);
 Stepper myStepper(stepsPerRevolution, 33,32,34,35);  
 
 
-const int max_rpm = 8500;                   // Max number of RPM that can be displayed on dash
-const int max_speed = 200;                 // Max speed that can be displayed on dash
+const int max_rpm = 10000;                   // Max number of RPM that can be displayed on dash
+const int max_speed = 240;                 // Max speed that can be displayed on dash
 int steps_rmp;                                  // No. of steps the motor has to do to get to desired value of RPM
 int steps_speed;                                // No. of steps the motor has to do to get to desired value of RPM
 int current_speed = 0;                               // Variable storing current position of stepper (storing the number of steps from the beginning)
@@ -109,8 +108,8 @@ Switches  switches[17] = {
   Switches(6), //WIPERS_4  zadni stirac
   Switches(7), //WIPERS_4  6zadni ostrikovac
   
-  Switches(9), //LEFT_BL 7
-  Switches(8), //RIGHT_BL  4
+  Switches(8), //LEFT_BL 7
+  Switches(9), //RIGHT_BL  4
   
   Switches(10,true), // FOG LIGHT
   Switches(-1,true), // 
@@ -121,7 +120,7 @@ Switches  switches[17] = {
   Switches(-1,true), // 
   Switches(21,true), // IGNITION
   Switches(20,true), // STARTER
-  Switches(18,true), // hand brake
+  Switches(-1,true), // 
 
 };
 Switches * light = &switches[11];
@@ -141,11 +140,6 @@ void setup() {
   myStepper.setSpeed(steperSpeed);//42
   myStepper2.setSpeed(steperSpeed);//42
 
-  // Rotation of steppers to max position and back to zero position
-  makeXsteps(myStepper,stepsPerRevolution);
-  makeXsteps(myStepper,-stepsPerRevolution*1.5);
-  makeXsteps(myStepper2,stepsPerRevolution); // make sure we are at zero
-  makeXsteps(myStepper2,-stepsPerRevolution*1.5); // make sure we are at zero
 
   max7219.enable(true);
   max7219.setIntensity(16);
@@ -155,9 +149,11 @@ void setup() {
   data_in->speed = 0;
   data_in->rmp= 0;
   data_in->engine_state= 0;
-  backLight_pevState = light->isActivated();
+  backLight_pevState = !light->isActivated();
   
- 
+  // handbrack cheat we set one analog input to low 
+  // pull up othret as an input and read a value
+  
   left->setCallbackFunction(&relleyOn,&relleyOff);
   right->setCallbackFunction(&relleyOn,&relleyOff);
 }
@@ -167,7 +163,7 @@ void loop() {
   delay(1);
 
   // computation of accelerator press degree
-  acceleratorValue = analogRead(acceleratorPin);
+  acceleratorValue = 2;
   procent = (float)(acceleratorValue - minVal) / (maxVal - minVal) * 100;
   // rotating stepper
   updateSteper (myStepper, steps_rmp, current_rmp,last_zero_calibration_rmp);
@@ -193,15 +189,15 @@ void loop() {
   if (IndicatoryLed::stateChanged){
     updateLed(IndicatoryLed::maxRowPointer);
   }
- /**
-    steps_rmp = (ceil)(data_in->rmp * delimiter_rmp);
+ 
+  /**  steps_rmp = (ceil)(data_in->rmp * delimiter_rmp);
       steps_speed = (ceil)(data_in->speed * delimiter_speed);     
-      data_out->displayed_speed = (int)current_speed / delimiter_speed;
-      data_out->displayed_rmp =(int) current_rmp / delimiter_rmp;
-      data_out->buttonState = Switches::getCommonState();
-      data_out->acceleratorValue = procent; 
-      data_out->brakeValue = 0; 
-      data_out->clutchValue = 0; 
+      data_out->displayed_speed = 2;
+      data_out->displayed_rmp =4;
+      data_out->buttonState = 8;
+      data_out->acceleratorValue = 16; 
+      data_out->brakeValue = 32; 
+      data_out->clutchValue = 64; 
   Serial.print(data_out->buttonState);Serial.print(" ");
       Serial.print(data_out->displayed_speed);Serial.print(" ");
       Serial.print(data_out->displayed_rmp);Serial.print(" ");
@@ -209,17 +205,17 @@ void loop() {
       Serial.print(data_out->brakeValue);Serial.print(" ");
       Serial.print(data_out->clutchValue);Serial.print(" ");
       Serial.println(sizeof(SDE_to_PC));
-  **/    
+      **/
   if (true && Serial.available() >= msg_size_to_ard ) {
     if (readSerial(data_in)) {
       steps_rmp = (ceil)(data_in->rmp * delimiter_rmp);
       steps_speed = (ceil)(data_in->speed * delimiter_speed);     
-      data_out->displayed_speed = (int)current_speed / delimiter_speed;
-      data_out->displayed_rmp =(int) current_rmp / delimiter_rmp;
-      data_out->buttonState = Switches::getCommonState();
-      data_out->acceleratorValue = procent; 
-      data_out->brakeValue = 0; 
-      data_out->clutchValue = 0; 
+       data_out->displayed_speed = 2;
+      data_out->displayed_rmp =4;
+      data_out->buttonState = 8;
+      data_out->acceleratorValue = 16; 
+      data_out->brakeValue = 32; 
+      data_out->clutchValue = 64; 
       /**Serial.print(data_out->buttonState);Serial.print(" ");
       Serial.print(data_out->displayed_speed);Serial.print(" ");
       Serial.print(data_out->displayed_rmp);Serial.print(" ");
