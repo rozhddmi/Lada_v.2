@@ -22,7 +22,10 @@ const int stepsPerRevolution = 512;  // change this to fit the number of steps p
 int m_speed = 20;
 // initialize the stepper library on pins 8 through 11:
 //Stepper myStepper(stepsPerRevolution, 28,27,29,31);            
-Stepper myStepper(stepsPerRevolution, 28,29,30,31);            
+
+//Stepper myStepper(stepsPerRevolution, 28,29,30,31);            
+Stepper myStepper(stepsPerRevolution, 30,31,28,29);  
+
 Stepper myStepper2(stepsPerRevolution, 33,32,34,35);   
 void setup() {
   // set the speed at 60 rpm:

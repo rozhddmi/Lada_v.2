@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    SP = initialize(L"\\\\.\\COM4",9600);
+    SP = initialize(L"\\\\.\\COM10",9600);
     data_in = (SDE_in *)getDataInPT(SP);
     data_out = (SDE_out *)getDataOutPT(SP);
     

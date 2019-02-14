@@ -1,10 +1,10 @@
 #include "ICMIMax7219.h"  
 uint8_t row[8] ={0,0,0,0,0,0,0,0};
 // The number of the Arduino pin that is connected to the data in pin. The data in pin is pin 1 on the MAX7219.
-const uint8_t PIN_DATA = 24;
+const uint8_t PIN_DATA = 26;//24;
 
 // The number of the Arduino pin that is connected to the clock pin. The clock pin is pin 13 on the MAX7219.
-const uint8_t PIN_CLOCK = 26;
+const uint8_t PIN_CLOCK = 24;//26;
 
 // The number of the Arduino pin that is connected to the load pin. The data in pin is pin 12 on the MAX7219.
 const uint8_t PIN_LOAD = 27;
